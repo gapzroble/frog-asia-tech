@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{project}}</title>
+    <link href="https://bootswatch.com/sandstone/bootstrap.min.css" rel="stylesheet">
+    <link href="/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{path('homepage')}}">{{project}}</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li {% if app.request.get('_route') != 'pond' %}class="active"{% endif %}><a href="{{path('frogs')}}"><i class="glyphicon glyphicon-home"></i> Manage Frogs</a></li>
+            <li {% if app.request.get('_route') == 'pond' %}class="active"{% endif %}><a href="{{path('pond')}}"><i class="glyphicon glyphicon-grain"></i> Pond setting</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    <div class="container" id="main">
+        {% for flashkey,alertclass in {error:'danger', success:'info', warning:'warning'} %}
+            {% for alert in app.session.flashbag.get(flashkey) %}
+                <div class="alert alert-{{alertclass}}"><i class="glyphicon glyphicon-exclamation-sign"></i> {{ alert }}</div>
+            {% endfor %}
+        {% endfor %}
+        {% block main %}
+        {% endblock %}
+    </div><!-- /.container -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </body>
+</html>

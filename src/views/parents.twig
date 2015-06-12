@@ -1,0 +1,7 @@
+{% if frog.father %}
+    <a href="{{path('frog', {id:frog.father.id})}}" class="male">{{frog.father}}</a>
+{% endif %}
+    
+{% if frog.mother %}
+    <a href="{{path('frog', {id:frog.mother.id})}}" class="female">{{frog.mother}}</a>
+{% endif %}

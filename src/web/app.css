@@ -1,0 +1,12 @@
+#main {
+    margin-top: 85px;
+}
+h1 span {
+    font-size: 11px !important;
+}
+.male {
+    color: blue !important;
+}
+.female {
+    color: fuchsia !important;
+}

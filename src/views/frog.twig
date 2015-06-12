@@ -1,0 +1,38 @@
+{% extends "layout.twig" %}
+
+{% block main %}
+<div class="jumbotron">
+    <h1>{{frog.name}}
+    {% if frog.dead %}<span class="label label-danger">dead</span>{% else %}<span class="label label-info">alive</span>{% endif %}
+    </h1>
+    <p>born: {{frog.birthdate|date(date_format)}} ({{frog.age}})</p>
+    <p>gender: {{frog.gender}}</p>
+    
+    {% if frog.parents %}
+    <p>parents: {% include "parents.twig" %} </p>
+    {% endif %}
+    
+    {% if frog.offspring %}
+    <p>offspring: 
+        {% for o in frog.offspring %}
+            <a href="{{path('frog', {id:o.id})}}">{{o}}</a>
+        {% endfor %}
+    </p>
+    {% endif %}
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a href="{{path('frogs')}}" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-home"></i> back to pond</a> 
+        {% if not frog.dead %}
+        <div class="pull-right">
+            <a href="{{path('form',{id:frog.id})}}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i> edit</a> 
+            <a href="{{path('mate',{id:frog.id})}}" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-random"></i> mate</a> 
+            <a href="{{path('clone',{id:frog.id})}}" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-duplicate"></i> clone</a>
+            <a href="{{path('kill',{id:frog.id})}}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove-sign"></i> kill</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

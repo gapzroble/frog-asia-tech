@@ -1,0 +1,87 @@
+{% extends "layout.twig" %}
+
+{% block main %}
+<div class="page-header">
+    <div class="btn-group pull-right">
+        <a href="{{path('random')}}" class="btn btn-danger">
+            <i class="glyphicon glyphicon-th-list"></i>
+            Create random frogs
+        </a>
+        <a href="{{path('form')}}" class="btn btn-info">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+            Add new Frog
+        </a>
+    </div>
+    <h1>Frogs</h1>
+
+    <div class="btn-group btn-group-sm">
+        <a href="{{path('frogs')}}" class="btn btn-{% if app.request.get('status') == '' and app.request.get('gender') == '' %}success{% else %}default{% endif %}">All</a>
+        <a href="{{path('frogs',app.request.query.all|merge({status:'alive'}))}}" class="btn btn-{% if app.request.get('status') == 'alive' %}success{% else %}default{% endif %}">Alive</a>
+        <a href="{{path('frogs',app.request.query.all|merge({status:'dead'}))}}" class="btn btn-{% if app.request.get('status') == 'dead' %}success{% else %}default{% endif %}">Dead</a>
+        <a href="{{path('frogs',app.request.query.all|merge({gender:'Male'}))}}" class="btn btn-{% if app.request.get('gender') == 'Male' %}success{% else %}default{% endif %}">Male</a>
+        <a href="{{path('frogs',app.request.query.all|merge({gender:'Female'}))}}" class="btn btn-{% if app.request.get('gender') == 'Female' %}success{% else %}default{% endif %}">Female</a>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            {% set sort = app.request.get('sort', 'name') %}
+            {% set dir = app.request.get('dir', 'asc') %}
+            <th><a href="{{path('frogs',app.request.query.all|merge({sort:'id',dir:(sort=='id' and dir=='asc' ? 'desc' : 'asc')}))}}">#</a></th>
+            <th width="300"><a href="{{path('frogs',app.request.query.all|merge({sort:'name',dir:(sort=='name' and dir=='asc' ? 'desc' : 'asc')}))}}">Name</a></th>
+            <th><a href="{{path('frogs',app.request.query.all|merge({sort:'gender',dir:(sort=='gender' and dir=='asc' ? 'desc' : 'asc')}))}}">Gender</a></th>
+            <th><a href="{{path('frogs',app.request.query.all|merge({sort:'birthdate',dir:(sort=='birthdate' and dir=='asc' ? 'desc' : 'asc')}))}}">Date of birth (age)</a></th>
+            <th><a>Parents</a></th>
+            <th width="280"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for frog in frogs %}
+        <tr class="{% if frog.dead %}danger{% elseif frog.female %}success{% endif %}">
+          <th scope="row">{{frog.id}}</th>
+          <td>{{frog}}</td>
+          <td>{{frog.gender}}</td>
+          <td>{{frog.birthdate|date(date_format)}} ({{frog.age}})</td>
+          <td>{% include "parents.twig" %}</td>
+          <td align="right">
+              <div class="btn-group btn-group-sm">
+                  <a href="{{path('frog',{id:frog.id})}}" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-info-sign"></i> show</a> 
+                  {% if not frog.dead %}
+                  <a href="{{path('form',{id:frog.id})}}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i> edit</a> 
+                  <a href="{{path('mate',{id:frog.id})}}" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-random"></i> mate</a> 
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{path('clone',{id:frog.id})}}"><i class="glyphicon glyphicon-duplicate"></i> clone</a></li>
+                      <li><a href="{{path('kill',{id:frog.id})}}"><i class="glyphicon glyphicon-remove-sign"></i> kill</a></li>
+                  </ul>
+                  {% endif %}
+              </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr class="danger">
+            <td colspan="6" align="center"><em>Pond is empty</em></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+</table>
+
+<ul class="pagination">
+  {% for number, position in pages %}
+    {% if position == 'first' %}
+      <li><a href="{{path('frogs',app.request.query.all|merge({page:number}))}}">&laquo;</a></li>
+    {% elseif position == 'less' or position == 'more' %}
+      <li><a>...</a></li>
+    {% elseif position == 'previous' or position == 'next' %}
+      <li><a href="{{path('frogs',app.request.query.all|merge({page:number}))}}">{{ number }}</a></li>
+    {% elseif position == 'current' %}
+      <li class="active"><a>{{ number }}</a></li>
+    {% elseif position == 'last' %}
+      <li><a href="{{path('frogs',app.request.query.all|merge({page:number}))}}">&raquo;</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,6 @@
+/nbproject/
+/vendor/
+/bin/
+!web/assets/.gitkeep
+/web/assets/
+/cache/

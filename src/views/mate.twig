@@ -1,0 +1,23 @@
+{% extends "layout.twig" %}
+
+{% form_theme form "fields.twig" %}
+
+{% block main %}
+<div class="page-header">
+    <h1>Choose a partner for {{frog}}</h1>
+</div>
+
+<form action="{{path('mate',{id:frog.id})}}" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Gender</label>
+        <div class="col-sm-10"><span class="form-control">{{frog.gender}}</span></div>
+    </div>
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-share-alt"></i> Submit</button>
+            <a href="{{path('frogs')}}" class="btn btn-default">Cancel</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

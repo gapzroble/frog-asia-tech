@@ -1,5 +1,3 @@
-<!---
-Add your comments / notes and thoughts to this doc
+composer install
 
-Any special instructions to running your code?
--->
+php -S 0.0.0.0:8080 -t web web/index.php

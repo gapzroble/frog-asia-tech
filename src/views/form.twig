@@ -1,0 +1,23 @@
+{% extends "layout.twig" %}
+
+{% form_theme form "fields.twig" %}
+
+{% block main %}
+<div class="page-header">
+    {% if frog.id is null %}
+    <h1>Create new Frog</h1>
+    {% else %}
+    <h1>Update Frog</h1>
+    {% endif %}
+</div>
+
+<form action="{{path('form',{id:frog.id})}}" method="post" class="form-horizontal">
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-share-alt"></i> Submit</button>
+            <a href="{{path('frogs')}}" class="btn btn-default">Cancel</a>
+        </div>
+    </div>
+</form>
+{% endblock %}
