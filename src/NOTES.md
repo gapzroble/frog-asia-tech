@@ -1,6 +1,12 @@
+## Framework used
+silex (http://silex.sensiolabs.org/)
+
+Doctrine ORM
+
 ## Requirements
 * Composer (https://getcomposer.org/)
 * php >5.4
+* pdo_sqlite
 
 ## Steps
 git clone https://github.com/raffiudelle/frog-asia-tech.git
